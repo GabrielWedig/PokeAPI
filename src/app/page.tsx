@@ -8,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination'
+import { firstUpper } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -43,7 +44,7 @@ export default function Pokemons() {
   const handlePrevious = () => setUrl((url) => response?.previous ?? url)
 
   return (
-    <section className="px-80 py-10">
+    <section className="px-80 py-40">
       <h1 className="text-4xl font-semibold mb-10">Pokémons</h1>
 
       <ul className="flex flex-col gap-2 mb-10">
@@ -52,9 +53,7 @@ export default function Pokemons() {
             key={i}
             className="w-full border rounded-lg px-5 py-3 flex justify-between items-center"
           >
-            <h4 className="text-lg">
-              {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
-            </h4>
+            <h4 className="text-lg">{firstUpper(pokemon.name)}</h4>
             <Button
               variant="outline"
               onClick={() => router.push(`/pokemon/${pokemon.name}`)}
