@@ -47,9 +47,9 @@ export default function Pokemons() {
       <h1 className="text-4xl font-semibold mb-10">Pokémons</h1>
 
       <ul className="flex flex-col gap-2 mb-10">
-        {response?.results.map((pokemon) => (
+        {response?.results.map((pokemon, i) => (
           <li
-            key={pokemon.name}
+            key={i}
             className="w-full border rounded-lg px-5 py-3 flex justify-between items-center"
           >
             <h4 className="text-lg">
