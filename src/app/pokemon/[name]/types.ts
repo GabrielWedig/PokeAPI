@@ -30,10 +30,10 @@ interface AbilityDetail {
 
 interface Stat {
   base_stat: number
-  stat: StatDeatil
+  stat: StatDetail
 }
 
-interface StatDeatil {
+interface StatDetail {
   name: string
 }
 
