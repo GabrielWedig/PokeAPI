@@ -4,11 +4,13 @@ import { Button } from '@/components/ui/button'
 import { firstUpper } from '@/lib/utils'
 import Link from 'next/link'
 
-type PageProps = {
-  params: { name: string }
+interface PokemonPageProps {
+  params: {
+    name: string
+  }
 }
 
-export default async function PokemonPage({ params }: PageProps) {
+export default async function PokemonPage({ params }: PokemonPageProps) {
   const { name } = params
 
   const pokemon: Pokemon = await fetch(
