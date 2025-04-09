@@ -5,13 +5,13 @@ import { firstUpper } from '@/lib/utils'
 import Link from 'next/link'
 
 interface PokemonPageProps {
-  params: {
-    name: Promise<string>
-  }
+  params: Promise<{
+    name: string
+  }>
 }
 
 export default async function PokemonPage({ params }: PokemonPageProps) {
-  const { name } = params
+  const { name } = await params
 
   const pokemon: Pokemon = await fetch(
     `https://pokeapi.co/api/v2/pokemon/${name}`
