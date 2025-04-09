@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 interface PokemonPageProps {
   params: {
-    name: string
+    name: Promise<string>
   }
 }
 
