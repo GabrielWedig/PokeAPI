@@ -44,9 +44,8 @@ export default function Pokemons() {
   const handlePrevious = () => setUrl((url) => response?.previous ?? url)
 
   return (
-    <section className="px-80 py-40">
+    <section className="px-80 py-10">
       <h1 className="text-4xl font-semibold mb-10">Pokémons</h1>
-
       <ul className="flex flex-col gap-2 mb-10">
         {response?.results.map((pokemon, i) => (
           <li
@@ -63,7 +62,6 @@ export default function Pokemons() {
           </li>
         ))}
       </ul>
-
       <Pagination>
         <PaginationContent>
           <PaginationItem>
