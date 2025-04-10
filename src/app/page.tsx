@@ -66,6 +66,7 @@ export default function Pokemons() {
     offset + limit < pokemons.length && setPage((page) => page + 1)
 
   const handleGeneration = async (value: string) => {
+    setPage(1)
     const data = await fetchData(
       `https://pokeapi.co/api/v2/generation/${value}`
     )
@@ -77,12 +78,14 @@ export default function Pokemons() {
   }
 
   const handleType = async (value: string) => {
+    setPage(1)
     const data = await fetchData(`https://pokeapi.co/api/v2/type/${value}`)
     setTitle(`Pokémons - Tipo ${firstUpper(value)}`)
     setPokemons(data.pokemon.map((p: any) => p.pokemon))
   }
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setPage(1)
     const value = event.target.value.toLowerCase()
     const pokemonsList: Pokemon[] = getCachePokemons()
     const filtered = pokemonsList.filter((pokemon) =>
@@ -103,6 +106,7 @@ export default function Pokemons() {
     const allPokemons = getCachePokemons()
     setPokemons(allPokemons)
     setTitle(defaultTitle)
+    setPage(1)
     reset()
   }
 

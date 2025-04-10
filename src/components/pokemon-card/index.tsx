@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import { fetchData, firstUpper } from '@/lib/utils'
 import { Card, CardContent, CardHeader } from '../ui/card'
-import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
-import { gradients } from '../type/colors'
+import { colors } from '../type/colors'
+import Tilt from 'react-parallax-tilt'
 
 interface PokemonCardProps {
   name: string
@@ -16,37 +16,50 @@ export default function PokemonCard({ name }: PokemonCardProps) {
   const [pokemon, setPokemon] = useState<Pokemon>()
 
   useEffect(() => {
+    console.log('aqui', name)
     getPokemon()
-  }, [])
+  }, [name])
 
   const getPokemon = async () => {
     const data = await fetchData(`https://pokeapi.co/api/v2/pokemon/${name}`)
     setPokemon(data)
   }
 
-  const backgroundColor = gradients[pokemon?.types[0].type.name ?? 'normal']
+  const backgroundColor = colors[pokemon?.types[0].type.name ?? 'normal']
+  const image =
+    pokemon?.sprites.other.dream_world.front_default ??
+    pokemon?.sprites.other['official-artwork'].front_default
 
   return (
     pokemon && (
-      <Card
-        className={`py-5 px-2 w-[370px] h-[250px] shadow-xl relative ${backgroundColor}`}
+      <button
+        className="cursor-pointer"
+        onClick={() => router.push(pokemon.name)}
       >
-        <CardHeader className="flex justify-between">
-          <span className="text-white font-semibold opacity-50 text-8xl">
-            #{pokemon.id}
-          </span>
-          <h4 className="text-3xl font-semibold text-white">
-            {firstUpper(name)}
-          </h4>
-        </CardHeader>
-        <CardContent className="flex items-end justify-between">
-          <img
-            src={pokemon.sprites.other.dream_world.front_default}
-            alt={`imagem ${pokemon.name}`}
-            className="w-[150px] absolute bottom-5 left-30"
-          />
-        </CardContent>
-      </Card>
+        <Tilt>
+          <Card
+            className={`py-5 px-2 w-[370px] h-[270px] shadow-xl relative flex flex-col justify-between items-start ${backgroundColor}`}
+          >
+            <CardHeader className="flex justify-between">
+              <span className="text-white font-semibold opacity-50 text-8xl">
+                #{pokemon.id}
+              </span>
+            </CardHeader>
+            <CardContent>
+              {image && (
+                <img
+                  src={image}
+                  alt={`imagem ${pokemon.name}`}
+                  className="w-[150px] absolute bottom-15 left-40"
+                />
+              )}
+              <h4 className="text-3xl font-semibold text-white">
+                {firstUpper(name)}
+              </h4>
+            </CardContent>
+          </Card>
+        </Tilt>
+      </button>
     )
   )
 }
