@@ -6,6 +6,7 @@ interface Pokemon {
   abilities: Ability[]
   stats: Stat[]
   types: Type[]
+  id: number
 }
 
 interface Sprites {
@@ -14,6 +15,11 @@ interface Sprites {
 
 interface Other {
   'official-artwork': OfficialArtWork
+  dream_world: DreamWorld
+}
+
+interface DreamWorld {
+  front_default: string
 }
 
 interface OfficialArtWork {

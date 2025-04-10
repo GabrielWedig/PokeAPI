@@ -15,13 +15,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { firstUpper } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
+import { fetchData, firstUpper } from '@/lib/utils'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { generations, types } from './filters'
-import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import { Controller, useForm } from 'react-hook-form'
+import PokemonCard from '@/components/pokemon-card'
 
 interface Pokemon {
   name: string
@@ -35,7 +34,6 @@ interface Filter {
 }
 
 export default function Pokemons() {
-  const router = useRouter()
   const defaultTitle = 'Pokémons'
 
   const [title, setTitle] = useState<string>(defaultTitle)
@@ -51,17 +49,6 @@ export default function Pokemons() {
     getPokemons()
   }, [])
 
-  const fetchData = async (url: string) => {
-    setPage(1)
-    try {
-      const { data } = await axios.get(url)
-      return data
-    } catch (error: unknown) {
-      console.log(error)
-      setPokemons([])
-    }
-  }
-
   const getPokemons = async () => {
     const data = await fetchData(
       'https://pokeapi.co/api/v2/pokemon?offset=0&limit=2000'
@@ -70,7 +57,7 @@ export default function Pokemons() {
     localStorage.setItem('allPokemons', JSON.stringify(data.results))
   }
 
-  const limit = 10
+  const limit = 12
   const offset = (page - 1) * limit
   const paginated = pokemons.slice(offset, offset + limit)
 
@@ -130,7 +117,7 @@ export default function Pokemons() {
   return (
     <section className="px-80 py-10">
       <div className="flex justify-between">
-        <h1 className="text-4xl font-semibold mb-10">{title}</h1>
+        <h1 className="text-4xl font-semibold mb-15">{title}</h1>
         <form className="flex gap-2">
           <Input
             placeholder="Pesquisar"
@@ -186,27 +173,16 @@ export default function Pokemons() {
               </Select>
             )}
           />
-
           <Button type="button" variant="ghost" onClick={handleReset}>
             Limpar
           </Button>
         </form>
       </div>
-
-      <ul className="flex flex-col items-center gap-2 min-h-[calc(100vh-160px)]">
+      <ul className="grid grid-cols-3 gap-3 min-h-[calc(100vh-160px)] mb-20">
         {paginated.length === 0 && <p>Pokémon não encontrado.</p>}
         {paginated.map((pokemon, i) => (
-          <li
-            key={i}
-            className="w-full border rounded-lg px-5 py-3 flex justify-between items-center"
-          >
-            <h4 className="text-lg">{firstUpper(pokemon.name)}</h4>
-            <Button
-              variant="outline"
-              onClick={() => router.push(`/pokemon/${pokemon.name}`)}
-            >
-              Detalhes
-            </Button>
+          <li key={i}>
+            <PokemonCard name={pokemon.name} />
           </li>
         ))}
       </ul>

@@ -8,8 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { firstUpper } from '@/lib/utils'
-import axios from 'axios'
+import { fetchData, firstUpper } from '@/lib/utils'
 import Link from 'next/link'
 
 interface PokemonPageProps {
@@ -21,17 +20,8 @@ interface PokemonPageProps {
 export default async function PokemonPage({ params }: PokemonPageProps) {
   const { name } = await params
 
-  const getPokemon = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${name}`
-      )
-      return data
-    } catch (error: unknown) {
-      console.log(error)
-      return null
-    }
-  }
+  const getPokemon = async () =>
+    fetchData(`https://pokeapi.co/api/v2/pokemon/${name}`)
 
   const pokemon: Pokemon = await getPokemon()
 
@@ -64,15 +54,11 @@ export default async function PokemonPage({ params }: PokemonPageProps) {
                   ))}
                 </div>
               </div>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde
-                optio vitae architecto nulla nam! Nam, sequi obcaecati nesciunt
-                ad tenetur ullam autem natus saepe, est, beatae aperiam tempore
-                quae blanditiis!
-              </p>
               <div className="flex gap-5">
-                <span className="font-semibold">Altura: {pokemon.height}</span>
-                <span className="font-semibold">Peso: {pokemon.weight}</span>
+                <span className="font-semibold">
+                  Altura: {pokemon.height}cm
+                </span>
+                <span className="font-semibold">Peso: {pokemon.weight}kg</span>
                 <div>
                   <span className="font-semibold">Habilidades: </span>
                   {pokemon.abilities.map((ab, i) => (
